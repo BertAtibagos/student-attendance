@@ -10,7 +10,7 @@ export function Dropdown(name,content,label,options = {}) {
             <div class="col-md-4">
                 <label class="form-label">${label}</label>
                 <select class="form-select dropdown" data-name="${name}">
-                    <option value="">${defaultValue}</option>
+                    <option value="" disabled>${defaultValue}</option>
                     ${content.map(item => `
                         <option value="${item[valueKey]}">${item[labelKey]}</option>
                     `).join("")}
