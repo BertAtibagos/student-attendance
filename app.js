@@ -3,15 +3,16 @@ import { Button } from './components/Button.js';
 import { bindEvents } from './util/bindEvents.js';
 import { Card } from './components/RecordCards.js';
 import { getSemester } from './api/getSemester.js';
+import { getSubjects } from './api/getSubjects.js';
 
 const root = document.getElementById('root');
 
-function App() {
+async function App() {
 
     const session = window.__SESSION__;
 
-    let sem = getSemester();
-    let subj = ['Math', 'English', 'Science'];
+    let sem = await getSemester();
+    let subj = await getSubjects();
     let records = ['Record 1', 'Record 2', 'Record 3'];
 
     let selectedSem = null;
@@ -27,7 +28,11 @@ function App() {
                                             valueKey: "prdId",
                                             labelKey: "prdName"
                                         })}
-                                        ${Dropdown("subject", subj, "Subject", "Select Subject")}
+                                        ${Dropdown("subject", subj, "Subject", {
+                                            valueKey: "subj_id",
+                                            labelKey: "subj_desc",
+                                            defaultValue: "Select Subject"
+                                        })}
                                         ${Button("Search")}
                                     </div>
                                 </div>
