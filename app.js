@@ -1,15 +1,14 @@
 import { Dropdown } from './components/Dropdown.js';
+import { dateFilterComponent } from './components/dateFilter.js';
 import { Button } from './components/Button.js';
-import { bindEvents } from './util/bindEvents.js';
 import { Card } from './components/RecordCards.js';
+import { bindEvents } from './util/bindEvents.js';
 import { getSemester } from './api/getSemester.js';
 import { getSubjects } from './api/getSubjects.js';
 
 const root = document.getElementById('root');
 
 async function App() {
-
-    const session = window.__SESSION__;
 
     let sem = await getSemester();
     let subj = await getSubjects();
@@ -39,13 +38,21 @@ async function App() {
 
                                 <div class="card p-3 shadow-sm attendance-card">
                                     <div id="attndnc_logs_card">
-                                        ${Card(records)}
+                                        <div class="row g-3 mb-3 align-items-end" id="dateFilter">
+                                            <div class="col">
+                                                ${dateFilterComponent()}
+                                            </div>
+
+                                            <div class="col-auto">
+                                                ${Button("Filter")}
+                                            </div>
+                                        </div>
+                                            ${Card(records)}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-    `;
+                    </div>`;
 
     bindEvents(root, {
         onChange: (name, value) => {
