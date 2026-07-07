@@ -5,6 +5,7 @@ import { Card } from './components/RecordCards.js';
 import { bindEvents } from './util/bindEvents.js';
 import { getSemester } from './api/getSemester.js';
 import { getSubjects } from './api/getSubjects.js';
+import { getAttendance } from './api/getAttendance.js';
 
 const root = document.getElementById('root');
 
@@ -12,7 +13,7 @@ async function App() {
 
     let sem = await getSemester();
     let subj = await getSubjects();
-    let records = ['Record 1', 'Record 2', 'Record 3'];
+    let records = [];
 
     let selectedSem = null;
     let selectedSubj = null;
@@ -64,12 +65,13 @@ async function App() {
         }});
 }
 
-function handleSearch(semester, subject) {
+async function handleSearch(semester, subject) {
     if(!semester || !subject) {
         alert('Please select a Semester and Subject before searching.');
         return;
     }
     alert('Search clicked with Semester: ' + semester + ' and Subject: ' + subject);
+    records = await getAttendance(semester, subject);
 }
 
 document.addEventListener('DOMContentLoaded', App);
