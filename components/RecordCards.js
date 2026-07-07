@@ -1,23 +1,6 @@
 import { loadingComp } from './loadingSpinner.js';
-
-const attendance = document.getElementById('attndnc_logs_card');
-console.log(attendance);
-
-function groupByDate(logs) {
-    return logs.reduce((groups, log) => {
-        const date = log.log_date;
-        if (!groups[date]) {
-            groups[date] = [];
-        }
-        groups[date].push(log);
-        return groups;
-    }, {});
-}
-
-function dateSplit(dateTime){
-    dateTime = dateTime.split(" ")[1];
-    return dateTime;
-}
+import { entryGrouper } from '../util/entryGrouper.js';
+import { dateSplitter } from '../util/dateSplitter.js';
 
 export function Card(content) {
     
@@ -35,7 +18,7 @@ export function Card(content) {
         );
     }
     
-    const groupedLogs = groupByDate(content);
+    const groupedLogs = entryGrouper(content);
 
     return(
        Object.entries(groupedLogs).map(([date, logs]) => (
@@ -55,14 +38,14 @@ export function Card(content) {
                             <div>
                                 <small class="text-muted d-block">Time In</small>
                                 <span class="fw-semibold text-success">
-                                    ${dateSplit(data.first_login)}
+                                    ${dateSplitter(data.first_login)}
                                 </span>
                             </div>
 
                             <div>
                                 <small class="text-muted d-block">Time Out</small>
                                 <span class="fw-semibold text-danger">
-                                    ${dateSplit(data.last_login) ?? '--'}
+                                    ${dateSplitter(data.last_login) ?? '--'}
                                 </span>
                             </div>
                         </div>
